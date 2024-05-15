@@ -2,7 +2,12 @@ from PPlay.window import *
 from PPlay.gameimage import *
 from PPlay.sprite import *
 from random import *
-def menu():
+from PPlay.mouse import *
+from PPlay.keyboard import *
+import main
+dificuldade = 0
+
+def MainMenu():
     janela = Window(1000, 600)
     mouse = janela.get_mouse()
     janela.set_title("MENU SPACE INVADERS LEONARDO BRASIL")
@@ -21,7 +26,7 @@ def menu():
     while True:
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botao1):
-                game()
+                main.jogo(dificuldade = 1, delayest = 40, velprojetil=900)
             if mouse.is_over_object(botao3):
                 dificuldade()
             if mouse.is_over_object(botao4):
@@ -33,24 +38,12 @@ def menu():
         botao3.draw()
         botao4.draw()
         janela.update()
-
-
-def game():
-    janela = Window(1000, 600)
-    fundo = GameImage("assets\\fundo.png")
-    janela.set_title("JOGO SPACE INVADERS LEONARDO BRASIL")
-    teclado = janela.get_keyboard()
-    while True:
-        if teclado.key_pressed("esc"):
-            menu()
-        fundo.draw()
-        janela.update()
-
 def dificuldade():
     janela = Window(1000, 600)
     fundo = GameImage("assets\\fundo.png")
     janela.set_title("DIFICULDADES SPACE INVADERS LEONARDO BRASIL")
     teclado = janela.get_keyboard()
+    mouse = janela.get_mouse()
     botaofacil = Sprite("assets\\botaofacil.png")
     botaomedio = Sprite("assets\\botaomedio.png")
     botaodificil = Sprite("assets\\botaodificil.png")
@@ -60,9 +53,16 @@ def dificuldade():
     while True:
         fundo.draw()
         if teclado.key_pressed("esc"):
-            menu()
+            MainMenu()
+        if mouse.is_button_pressed(1):
+            if mouse.is_over_object(botaofacil):
+                main.jogo(dificuldade = 1, delayest = 40, velprojetil = 900)
+            if mouse.is_over_object(botaomedio):
+                main.jogo(dificuldade = 1, delayest = 80, velprojetil = 900)
+            if mouse.is_over_object(botaodificil):
+                main.jogo(dificuldade = 1, delayest = 120, velprojetil = 900)
         botaofacil.draw()
         botaomedio.draw()
         botaodificil.draw()
         janela.update()
-menu()
+MainMenu()
