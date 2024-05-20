@@ -5,7 +5,6 @@ from random import *
 from PPlay.mouse import *
 from PPlay.keyboard import *
 import main
-dificuldade = 0
 
 def MainMenu():
     janela = Window(1000, 600)
@@ -26,7 +25,7 @@ def MainMenu():
     while True:
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botao1):
-                main.jogo(dificuldade = 1, delayest = 40, velprojetil=900)
+                main.jogo(velplayer = 300, delayest = 20, velprojetil = 900, velinimigo = 100, linha = 3)
             if mouse.is_over_object(botao3):
                 dificuldade()
             if mouse.is_over_object(botao4):
@@ -56,11 +55,11 @@ def dificuldade():
             MainMenu()
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botaofacil):
-                main.jogo(dificuldade = 1, delayest = 40, velprojetil = 900)
+                main.jogo(velplayer = 300, delayest = 20, velprojetil = 900, velinimigo = 100, linha = 3)
             if mouse.is_over_object(botaomedio):
-                main.jogo(dificuldade = 1, delayest = 80, velprojetil = 900)
+                main.jogo(velplayer = 300, delayest = 30, velprojetil = 900, velinimigo = 100, linha = 4)
             if mouse.is_over_object(botaodificil):
-                main.jogo(dificuldade = 1, delayest = 120, velprojetil = 900)
+                main.jogo(velplayer = 300, delayest = 40, velprojetil = 900, velinimigo = 100, linha = 4)
         botaofacil.draw()
         botaomedio.draw()
         botaodificil.draw()

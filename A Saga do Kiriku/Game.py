@@ -42,7 +42,8 @@ def game(velper, veladd, limite):
 
     # Carregue a música
     pygame.mixer.music.load('Assets\\Musica.mp3')
-
+    pygame.mixer.music.set_volume(0.7)
+    efeito = pygame.mixer.Sound('Assets\\efeitojs.wav')
     # Tocar a música
     pygame.mixer.music.play(-1)
     while True:
@@ -68,7 +69,7 @@ def game(velper, veladd, limite):
         inimigo.x -= velini1
         if inimigo.x < -inimigo.width:
             inimigo.x = janela.width
-        if int(x) % veladd == 0 and x<6050 and x!=0:
+        if int(x) % veladd == 0 and x<6050 and x>50:
             velini1 += 0.015
             velini2 += 0.015
 
@@ -80,7 +81,8 @@ def game(velper, veladd, limite):
             velocidade_pulo = 2.8
             jumpskill.x = janela.width
             veljs = 0
-        if int(x) - 1500 % 2000 == 0:
+            efeito.play()
+        if (int(x) - 1500) % 2000 == 0:
             velocidade_pulo = 2.8
             gravidade = 0.018
         # Se a tecla de pulo for pressionada e o personagem estiver no chão
@@ -88,8 +90,12 @@ def game(velper, veladd, limite):
                 # Faz o personagem pular
             velocidade_vertical = -velocidade_pulo
             no_chao = False
-        if int(x) - 1000 % 2000 == 0:
+        if (int(x) - 1000) % 2000 == 0 and int(x) != 0:
+            jumpskill.x = janela.width
             veljs = velini2
+        if jumpskill.x < 0:
+            jumpskill.x = janela.width
+            veljs = 0
         jumpskill.x -= veljs
             # Aplica a gravidade
         velocidade_vertical += gravidade
@@ -103,8 +109,10 @@ def game(velper, veladd, limite):
             personagem.y = janela.height - personagem.height
             no_chao = True
         if personagem.collided(inimigo):
+            pygame.mixer.music.stop()
             gameover()
         if personagem.collided(inimigo2):
+            pygame.mixer.music.stop()
             gameover()
         if janela.delta_time() > 0:
             fundo.x -= velocidade_fundo * janela.delta_time()
@@ -135,6 +143,8 @@ def gameover():
     botaosair = Sprite("Assets\\BotaoSair.png")
     botaomenu.set_position(590, 200)
     botaosair.set_position(820, 200)
+    pygame.mixer.init()
+    efeitobotao = pygame.mixer.Sound('Assets\\efeitobotao.flac')
     while True:
         fundo.draw()
         botaomenu.draw()
@@ -142,10 +152,12 @@ def gameover():
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botaomenu):
                 import Menu
+                efeitobotao.play()
                 Menu.menu()
             if mouse.is_over_object(botaosair):
                 janela.close()
         if teclado.key_pressed("esc"):
             import Menu
+            efeitobotao.play()
             Menu.menu()
         janela.update()

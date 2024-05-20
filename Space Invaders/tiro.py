@@ -3,7 +3,7 @@ from PPlay.sprite import*
 def criaProjNave(player,listaProjeteis):
     # Crio o projetil
     projetil = Sprite("assets\\tiro.png",1)
-    projetil.x = player.x + 50
+    projetil.x = player.x + 28
     projetil.y = player.y - projetil.height
     listaProjeteis.append(projetil)
 
