@@ -41,3 +41,20 @@ def moveInimigos(janela, matrizDeInimigos, movimentoInimigo):
                 j[0].x += movimentoInimigo*janela.delta_time()
                 j[0].y += 30
     return movimentoInimigo
+
+def kill(listaProjeteis,matrizDeInimigos,score,linha):
+    for k,linhaDeInimigos in enumerate(matrizDeInimigos):
+        for i,inimigo in enumerate(linhaDeInimigos):
+            for j,projetil in enumerate(listaProjeteis):
+                    if (projetil.collided(inimigo[0])):
+                        listaProjeteis.pop(j)
+                        linhaDeInimigos[i]=(inimigo[0],inimigo[1]-1)
+                        if linhaDeInimigos[i][1]<=0:
+                            linhaDeInimigos.pop(i)
+                            if k==0:
+                                score+=30
+                            elif k==linha-1:
+                                score+=10
+                            else:
+                                score+=20
+    return score
