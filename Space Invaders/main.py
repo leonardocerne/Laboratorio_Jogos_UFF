@@ -84,7 +84,7 @@ def gameover(score):
                 import menu
                 menu.MainMenu()
             if mouse.is_over_object(botaosair):
-                janela.close
+                janela.close()
         janela.draw_text("YOUR SCORE: ", gotitulo.x + 110, gotitulo.y + gotitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(score),gotitulo.x + 260, gotitulo.y + gotitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         gotitulo.draw()
@@ -110,7 +110,7 @@ def youwin(score):
                 import menu
                 menu.MainMenu()
             if mouse.is_over_object(botaosair):
-                janela.close
+                janela.close()
         janela.draw_text("YOUR SCORE: ", ywtitulo.x + 110, ywtitulo.y + ywtitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(score),ywtitulo.x + 260, ywtitulo.y + ywtitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         ywtitulo.draw()
