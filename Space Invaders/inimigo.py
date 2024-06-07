@@ -58,3 +58,10 @@ def kill(listaProjeteis,matrizDeInimigos,score,linha):
                             else:
                                 score+=20
     return score
+
+def hit(vidas,player,listaDeInimigos,listaProjeteisInimigos,score):
+    for i,projetil in enumerate(listaProjeteisInimigos):
+        if (projetil.collided(player)):
+            listaProjeteisInimigos.pop(i)
+            vidas-=1    
+    return vidas

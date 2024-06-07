@@ -7,20 +7,23 @@ import time
 import inimigo
 import tiro
 
-def jogo(velplayer, delayest , velprojetil, velinimigo, linha):
+def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinimigo, velinimigo, linha):
     janela = Window(1000, 600)
     fundo = GameImage("assets\\fundo.png")
     janela.set_title("JOGO SPACE INVADERS LEONARDO BRASIL")
     teclado = janela.get_keyboard()
     player = Sprite("assets\\player.png")
     player.set_position((janela.width - player.width)/2, (janela.height - player.height) - 20)
+    listaProjeteisInimigos = []
     listaProjeteis = []
     matrizDeInimigos = []
+    delayinvencivel = 0
     tempoInicial = time.time()
     fps = 60
     clock = pygame.time.Clock()
     delay = delayest
     score = 0
+    dano = False
     while True:
         tempoAtual = time.time()
         deltaTime = tempoAtual - tempoInicial
@@ -36,9 +39,19 @@ def jogo(velplayer, delayest , velprojetil, velinimigo, linha):
             player.x -= velplayer * deltaTime
         if (teclado.key_pressed("SPACE") and delay==0):
             tiro.criaProjNave(player,listaProjeteis)
-        tiro.tiroPlayer(janela,listaProjeteis,velprojetil)
+        
         if (len(matrizDeInimigos)==0):
             inimigo.spawn(linha, matrizDeInimigos)
+        if (delayInimigo==0):
+            for i in matrizDeInimigos:
+                for j in i:
+                    tiro.criaProjInimigo(j,listaProjeteisInimigos)
+            delayInimigo = tiro.delayInimigo(delayInimigo,linha)
+        
+
+        tiro.tiroPlayer(janela,listaProjeteis,velprojetil)
+        tiro.tiroInimigo(janela,listaProjeteisInimigos,velprojetilinimigo)
+        
 
         for i in matrizDeInimigos:
             if (len(i)==0):
@@ -49,22 +62,49 @@ def jogo(velplayer, delayest , velprojetil, velinimigo, linha):
         if vazio:
             youwin(score)
 
+        if delay>=0:
+            delay-=1
+        if delay < 0:
+            delay = delayest
+        if delayInimigo>0:
+            delayInimigo-=1
+
+        if delayinvencivel>0:
+            delayinvencivel-=1
+            if((0 <= delayinvencivel <= 30) or (40 <= delayinvencivel <= 70) or (80 <= delayinvencivel <= 110) or (120 <= delayinvencivel <= 150) or (160 <= delayinvencivel <= 180)):
+                player.draw()
+        else:
+            player.draw()
+        
+        vidastmp = vidas
+
+        if (vidas>0 and delayinvencivel==0):
+            for i in matrizDeInimigos:
+                vidas = inimigo.hit(vidas, player, i, listaProjeteisInimigos,score)
+                if vidas != vidastmp:
+                    dano=True
+        if dano:
+            player.x= janela.width/2-player.width/2
+            delayinvencivel=180
+            dano=False
+
+        if (vidas <= 0):
+            gameover(score) 
         for i in range(len(matrizDeInimigos)-1,-1,-1):
             for j in matrizDeInimigos[i]:
                 if j[0].collided(player) or j[0].y>=player.y:
                     gameover(score)
         velinimigo = inimigo.moveInimigos(janela, matrizDeInimigos, velinimigo)
 
-        if delay>=0:
-            delay-=1
-        if delay < 0:
-            delay = delayest
+        
+
         score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha)
         inimigo.draw(matrizDeInimigos)
         janela.draw_text("SCORE: ", 20, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(score), 100, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(int(clock.get_fps())), janela.width-50, 0, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
-        player.draw()
+        janela.draw_text(("Vidas: "), 20, 40, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
+        janela.draw_text(str(vidas), 90, 40, size=20, font_name="Arial", bold=True,color=[255, 0, 0])
         janela.update()
 def gameover(score):
     janela = Window(1000, 600)
