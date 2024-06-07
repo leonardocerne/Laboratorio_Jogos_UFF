@@ -33,25 +33,35 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         if teclado.key_pressed("esc"):
             import menu
             menu.MainMenu()
+        
+        # movimento do player
+
         if (teclado.key_pressed("right")) and (player.x < janela.width - player.width):
             player.x += velplayer * deltaTime
         if (teclado.key_pressed("left")) and (player.x > 0):
             player.x -= velplayer * deltaTime
+        
+        # projeteis do player
         if (teclado.key_pressed("SPACE") and delay==0):
             tiro.criaProjNave(player,listaProjeteis)
         
+        # inimigos
         if (len(matrizDeInimigos)==0):
             inimigo.spawn(linha, matrizDeInimigos)
+        
+        # projeteis dos inimigos
         if (delayInimigo==0):
             for i in matrizDeInimigos:
                 for j in i:
                     tiro.criaProjInimigo(j,listaProjeteisInimigos)
             delayInimigo = tiro.delayInimigo(delayInimigo,linha)
         
+        # desenho os tiros
 
         tiro.tiroPlayer(janela,listaProjeteis,velprojetil)
         tiro.tiroInimigo(janela,listaProjeteisInimigos,velprojetilinimigo)
         
+        # verifico se o player já matou todos os inimigos
 
         for i in matrizDeInimigos:
             if (len(i)==0):
@@ -62,12 +72,15 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         if vazio:
             youwin(score)
 
+        # aplico o delay nos tiros
         if delay>=0:
             delay-=1
         if delay < 0:
             delay = delayest
         if delayInimigo>0:
             delayInimigo-=1
+
+        # ajusto o tempo que o player fica invencivel
 
         if delayinvencivel>0:
             delayinvencivel-=1
@@ -76,8 +89,9 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         else:
             player.draw()
         
-        vidastmp = vidas
+        # verifico se o player tomou dano
 
+        vidastmp = vidas
         if (vidas>0 and delayinvencivel==0):
             for i in matrizDeInimigos:
                 vidas = inimigo.hit(vidas, player, i, listaProjeteisInimigos,score)
@@ -88,6 +102,8 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
             delayinvencivel=180
             dano=False
 
+        # verifico se o player perdeu 
+
         if (vidas <= 0):
             gameover(score) 
         for i in range(len(matrizDeInimigos)-1,-1,-1):
@@ -96,9 +112,11 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
                     gameover(score)
         velinimigo = inimigo.moveInimigos(janela, matrizDeInimigos, velinimigo)
 
-        
+        # incremento a pontuação a cada kill do player
 
         score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha)
+        # desenho os inimigos e todas as informações da tela
+        
         inimigo.draw(matrizDeInimigos)
         janela.draw_text("SCORE: ", 20, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(score), 100, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
