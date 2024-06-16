@@ -26,7 +26,7 @@ def MainMenu():
     while True:
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botao1):
-                main.jogo(vidas = 3, velplayer = 300, delayest = 20, delayInimigo = 100, velprojetil = 900, velprojetilinimigo = 300 , velinimigo = 100, linha = 3)
+                main.jogo(vidas = 3, velplayer = 300, delayest = 20, delayInimigo = 100, velprojetil = 900, velprojetilinimigo = 300 , velinimigo = 100, linha = 3, dificuldade = 1)
             if mouse.is_over_object(botao2):
                 ranking.rankingmenu()
             if mouse.is_over_object(botao3):
@@ -58,11 +58,11 @@ def dificuldade():
             MainMenu()
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botaofacil):
-                main.jogo(vidas = 3, velplayer = 300, delayest = 20, delayInimigo = 100, velprojetil = 900, velprojetilinimigo = 300 , velinimigo = 100, linha = 3)
+                main.jogo(vidas = 3, velplayer = 300, delayest = 20, delayInimigo = 100, velprojetil = 900, velprojetilinimigo = 300 , velinimigo = 100, linha = 3, dificuldade = 1)
             if mouse.is_over_object(botaomedio):
-                main.jogo(vidas = 2, velplayer = 300, delayest = 30, delayInimigo = 125, velprojetil = 900,velprojetilinimigo = 300 ,velinimigo = 100, linha = 4)
+                main.jogo(vidas = 2, velplayer = 300, delayest = 30, delayInimigo = 125, velprojetil = 900,velprojetilinimigo = 300 ,velinimigo = 100, linha = 4, dificuldade = 2)
             if mouse.is_over_object(botaodificil):
-                main.jogo(vidas = 1, velplayer = 300, delayest = 40, delayInimigo = 100, velprojetil = 900,velprojetilinimigo = 300 ,velinimigo = 100, linha = 5)
+                main.jogo(vidas = 1, velplayer = 300, delayest = 40, delayInimigo = 100, velprojetil = 900,velprojetilinimigo = 300 ,velinimigo = 100, linha = 5, dificuldade = 3)
         botaofacil.draw()
         botaomedio.draw()
         botaodificil.draw()

@@ -42,11 +42,11 @@ def moveInimigos(janela, matrizDeInimigos, movimentoInimigo):
                 j[0].y += 30
     return movimentoInimigo
 
-def kill(listaProjeteis,matrizDeInimigos,score,linha):
+def kill(listaProjeteis,matrizDeInimigos,score,linha,dificuldade):
     for k,linhaDeInimigos in enumerate(matrizDeInimigos):
         for i,inimigo in enumerate(linhaDeInimigos):
             for j,projetil in enumerate(listaProjeteis):
-                    if (projetil.collided(inimigo[0])):
+                    if (projetil.collided(inimigo[0])) and dificuldade == 1:
                         listaProjeteis.pop(j)
                         linhaDeInimigos[i]=(inimigo[0],inimigo[1]-1)
                         if linhaDeInimigos[i][1]<=0:
@@ -57,6 +57,28 @@ def kill(listaProjeteis,matrizDeInimigos,score,linha):
                                 score+=10
                             else:
                                 score+=20
+                    if (projetil.collided(inimigo[0])) and dificuldade == 2:
+                        listaProjeteis.pop(j)
+                        linhaDeInimigos[i]=(inimigo[0],inimigo[1]-1)
+                        if linhaDeInimigos[i][1]<=0:
+                            linhaDeInimigos.pop(i)
+                            if k==0:
+                                score+=40
+                            elif k==linha-1:
+                                score+=20
+                            else:
+                                score+=30
+                    if (projetil.collided(inimigo[0])) and dificuldade == 3:
+                        listaProjeteis.pop(j)
+                        linhaDeInimigos[i]=(inimigo[0],inimigo[1]-1)
+                        if linhaDeInimigos[i][1]<=0:
+                            linhaDeInimigos.pop(i)
+                            if k==0:
+                                score+=50
+                            elif k==linha-1:
+                                score+=30
+                            else:
+                                score+=40                                                                
     return score
 
 def hit(vidas,player,listaDeInimigos,listaProjeteisInimigos,score):

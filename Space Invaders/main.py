@@ -8,7 +8,7 @@ import inimigo
 import tiro
 import ranking
 
-def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinimigo, velinimigo, linha):
+def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinimigo, velinimigo, linha, dificuldade):
     janela = Window(1000, 600)
     fundo = GameImage("assets\\fundo.png")
     janela.set_title("JOGO SPACE INVADERS LEONARDO BRASIL")
@@ -123,7 +123,7 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
 
         # incremento a pontuação a cada kill do player
 
-        score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha)
+        score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha, dificuldade)
         # desenho os inimigos e todas as informações da tela
         
         inimigo.draw(matrizDeInimigos)

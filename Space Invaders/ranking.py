@@ -22,7 +22,7 @@ def rankingmenu():
             menu.Menu()
         for i in range(len(pontuacao)):
             if i < 5:
-                janela.draw_text(str(pontuacao[i]), (janela.width/2)- 150, altura + i * 50, size=36, font_name="Arial", bold=True,color=[255, 255, 255])
+                janela.draw_text(str(pontuacao[i]), (janela.width/2)- 250, altura + i * 65, size=36, font_name="Arial", bold=True,color=[30, 255, 127])
             janela.draw_text(("RANKING"), (janela.width / 2)-120, 50, size=48, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.update()
         
