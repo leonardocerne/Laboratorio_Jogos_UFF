@@ -6,6 +6,7 @@ from pygame import mixer
 import time
 import inimigo
 import tiro
+import ranking
 
 def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinimigo, velinimigo, linha):
     janela = Window(1000, 600)
@@ -24,6 +25,7 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
     delay = delayest
     score = 0
     dano = False
+    fase = 1
     while True:
         tempoAtual = time.time()
         deltaTime = tempoAtual - tempoInicial
@@ -69,8 +71,15 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
             else:
                 vazio = False
                 break
-        if vazio:
-            youwin(score)
+        if vazio and fase < 3:
+            matrizDeInimigos.clear()
+            fase += 1
+            velinimigo *= 1.03
+            velprojetilinimigo *= 1.03
+            inimigo.spawn(linha, matrizDeInimigos)
+        
+        if vazio and fase == 3:
+            ranking.youwin(score)
 
         # aplico o delay nos tiros
         if delay>=0:
@@ -105,11 +114,11 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         # verifico se o player perdeu 
 
         if (vidas <= 0):
-            gameover(score) 
+            ranking.gameover(score) 
         for i in range(len(matrizDeInimigos)-1,-1,-1):
             for j in matrizDeInimigos[i]:
                 if j[0].collided(player) or j[0].y>=player.y:
-                    gameover(score)
+                    ranking.gameover(score)
         velinimigo = inimigo.moveInimigos(janela, matrizDeInimigos, velinimigo)
 
         # incremento a pontuação a cada kill do player
@@ -123,55 +132,4 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         janela.draw_text(str(int(clock.get_fps())), janela.width-50, 0, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(("Vidas: "), 20, 40, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(vidas), 90, 40, size=20, font_name="Arial", bold=True,color=[255, 0, 0])
-        janela.update()
-def gameover(score):
-    janela = Window(1000, 600)
-    fundo = GameImage("assets\\fundo.png")
-    janela.set_title("GAMEOVER")
-    mouse = janela.get_mouse()
-    botaomenu = Sprite("assets\\botaomenu.png")
-    botaosair = Sprite("assets\\botao4.png")
-    gotitulo = Sprite("assets\\gameover.png")
-    gotitulo.set_position((janela.width - gotitulo.width) / 2, 100)
-    botaomenu.set_position(100, 400)
-    botaosair.set_position(janela.width - 100 - botaosair.width, 400)
-    while True:
-        fundo.draw()
-        if mouse.is_button_pressed(1):
-            if mouse.is_over_object(botaomenu):
-                import menu
-                menu.MainMenu()
-            if mouse.is_over_object(botaosair):
-                janela.close()
-        janela.draw_text("YOUR SCORE: ", gotitulo.x + 110, gotitulo.y + gotitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
-        janela.draw_text(str(score),gotitulo.x + 260, gotitulo.y + gotitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
-        gotitulo.draw()
-        botaosair.draw()
-        botaomenu.draw()
-        janela.update()
-
-def youwin(score):
-    janela = Window(1000, 600)
-    fundo = GameImage("assets\\fundo.png")
-    janela.set_title("GAMEOVER")
-    mouse = janela.get_mouse()
-    botaomenu = Sprite("assets\\botaomenu.png")
-    botaosair = Sprite("assets\\botao4.png")
-    ywtitulo = Sprite("assets\\youwin.png")
-    ywtitulo.set_position((janela.width - ywtitulo.width) / 2, 100)
-    botaomenu.set_position(100, 400)
-    botaosair.set_position(janela.width - 100 - botaosair.width, 400)
-    while True:
-        fundo.draw()
-        if mouse.is_button_pressed(1):
-            if mouse.is_over_object(botaomenu):
-                import menu
-                menu.MainMenu()
-            if mouse.is_over_object(botaosair):
-                janela.close()
-        janela.draw_text("YOUR SCORE: ", ywtitulo.x + 110, ywtitulo.y + ywtitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
-        janela.draw_text(str(score),ywtitulo.x + 260, ywtitulo.y + ywtitulo.height + 50, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
-        ywtitulo.draw()
-        botaosair.draw()
-        botaomenu.draw()
         janela.update()

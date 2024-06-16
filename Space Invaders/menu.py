@@ -5,6 +5,7 @@ from random import *
 from PPlay.mouse import *
 from PPlay.keyboard import *
 import main
+import ranking
 
 def MainMenu():
     janela = Window(1000, 600)
@@ -26,6 +27,8 @@ def MainMenu():
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(botao1):
                 main.jogo(vidas = 3, velplayer = 300, delayest = 20, delayInimigo = 100, velprojetil = 900, velprojetilinimigo = 300 , velinimigo = 100, linha = 3)
+            if mouse.is_over_object(botao2):
+                ranking.rankingmenu()
             if mouse.is_over_object(botao3):
                 dificuldade()
             if mouse.is_over_object(botao4):
