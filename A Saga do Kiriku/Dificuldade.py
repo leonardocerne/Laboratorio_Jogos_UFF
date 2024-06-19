@@ -31,15 +31,15 @@ def Dificuldade():
             if mouse.is_over_object(botaofacil):
                 import Game
                 efeitobotao.play()
-                Game.game(velper = 400, veladd = 1000, limite = janela.width)
+                Game.game(velper = 400, veladd = 1000, limite = janela.width, dificuldade = 1)
             if mouse.is_over_object(botaomedio):
                 import Game
                 efeitobotao.play()
-                Game.game(velper = 400, veladd = 750, limite = 150)
+                Game.game(velper = 400, veladd = 750, limite = 150, dificuldade = 2)
             if mouse.is_over_object(botaodificil):
                 import Game
                 efeitobotao.play()
-                Game.game(velper = 0, veladd = 500, limite = 150)
+                Game.game(velper = 0, veladd = 500, limite = 150, dificuldade = 3)
         fundo.draw()
         botaofacil.draw()
         botaomedio.draw()

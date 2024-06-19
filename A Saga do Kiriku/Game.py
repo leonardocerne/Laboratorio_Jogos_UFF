@@ -2,7 +2,7 @@ from PPlay.window import *
 from PPlay.gameimage import *
 from PPlay.sprite import *
 
-def game(velper, veladd, limite):
+def game(velper, veladd, limite, dificuldade):
     janela = Window(1100, 619)
     fundo = GameImage("Assets/Fundo3.jpg")
     fundo2 = GameImage("Assets/Fundo3.jpg")
@@ -99,7 +99,8 @@ def game(velper, veladd, limite):
         jumpskill.x -= veljs
             # Aplica a gravidade
         velocidade_vertical += gravidade
-
+        if int(x) == 500 and dificuldade == 3:
+            easteregg()
             # Atualiza a posição vertical do personagem
         personagem.y += velocidade_vertical
 
@@ -144,6 +145,38 @@ def gameover():
     botaomenu.set_position(590, 200)
     botaosair.set_position(820, 200)
     pygame.mixer.init()
+    efeitobotao = pygame.mixer.Sound('Assets\\efeitobotao.flac')
+    while True:
+        fundo.draw()
+        botaomenu.draw()
+        botaosair.draw()
+        if mouse.is_button_pressed(1):
+            if mouse.is_over_object(botaomenu):
+                import Menu
+                efeitobotao.play()
+                Menu.menu()
+            if mouse.is_over_object(botaosair):
+                janela.close()
+        if teclado.key_pressed("esc"):
+            import Menu
+            efeitobotao.play()
+            Menu.menu()
+        janela.update()
+
+def easteregg():
+    janela = Window(1100, 619)
+    fundo = GameImage("Assets/fundoee.jpg")
+    janela.set_title("easteregg")
+    mouse = janela.get_mouse()
+    teclado = janela.get_keyboard()
+    botaomenu = Sprite("Assets\\BotaoMenu.png")
+    botaosair = Sprite("Assets\\BotaoSair.png")
+    botaomenu.set_position(200, 200)
+    botaosair.set_position(800, 200)
+    pygame.mixer.init()
+    pygame.mixer.music.load('Assets\\kiriku.mp3')
+    pygame.mixer.music.set_volume(0.7)
+    pygame.mixer.music.play(-1)
     efeitobotao = pygame.mixer.Sound('Assets\\efeitobotao.flac')
     while True:
         fundo.draw()

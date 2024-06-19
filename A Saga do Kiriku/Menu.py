@@ -25,7 +25,7 @@ def menu():
         if mouse.is_button_pressed(1):
             if mouse.is_over_object(jogar):
                 import Game
-                Game.game(velper = 400, veladd = 750, limite = 150)
+                Game.game(velper = 400, veladd = 750, limite = 150, dificuldade = 2)
             if mouse.is_over_object(sair):
                 janela.close()
             if mouse.is_over_object(tutorial):
