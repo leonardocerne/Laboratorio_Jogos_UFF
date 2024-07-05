@@ -18,6 +18,12 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
     listaProjeteisInimigos = []
     listaProjeteis = []
     matrizDeInimigos = []
+    escudo1 = Sprite("assets\\escudo1.png")
+    escudo2 = Sprite("assets\\escudo1.png")
+    escudo3 = Sprite("assets\\escudo1.png")
+    escudo1.set_position(100 , (janela.height - player.height) - 59)
+    escudo2.set_position((janela.width - escudo1.width)/2, (janela.height - player.height) - 59)
+    escudo3.set_position((janela.width - escudo1.width) - 100, (janela.height - player.height) - 59)
     delayinvencivel = 0
     tempoInicial = time.time()
     fps = 60
@@ -25,7 +31,14 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
     delay = delayest
     score = 0
     dano = False
+    danoe1 = False
+    danoe2 = False
+    danoe3 = False
     fase = 1
+    vidase1 = 3
+    vidase2 = 3
+    vidase3 = 3
+    conttiro = 0
     while True:
         tempoAtual = time.time()
         deltaTime = tempoAtual - tempoInicial
@@ -46,7 +59,29 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
         # projeteis do player
         if (teclado.key_pressed("SPACE") and delay==0):
             tiro.criaProjNave(player,listaProjeteis)
+            conttiro += 1
+
+        xant = player.x
+        yant = player.y
+        if (20 <= conttiro <= 40):
+            player = Sprite("assets\\player2.png")
+            player.x = xant
+            player.y = yant
+        elif (0 <= conttiro <= 19):
+            player = Sprite("assets\\player.png")
+            player.x = xant
+            player.y = yant
+
+        if (not teclado.key_pressed("SPACE")):
+            conttiro = 0
         
+        if(conttiro > 40):
+            vidas -= 1
+            player.x= janela.width/2-player.width/2
+            delayinvencivel=180
+            conttiro = 0
+
+                
         # inimigos
         if (len(matrizDeInimigos)==0):
             inimigo.spawn(linha, matrizDeInimigos)
@@ -111,21 +146,81 @@ def jogo(vidas, velplayer, delayest, delayInimigo , velprojetil, velprojetilinim
             delayinvencivel=180
             dano=False
 
+        # verifico o dano dos escudos
+
+        if(vidase1 > 0):
+            for i in matrizDeInimigos:
+                vidase1 = inimigo.hite1(listaProjeteisInimigos, escudo1, vidase1)
+                if (vidase1 == 0):
+                    danoe1 = True
+        if(vidase2 > 0):
+            for i in matrizDeInimigos:
+                vidase2 = inimigo.hite2(listaProjeteisInimigos, escudo2, vidase2)
+                if (vidase2 == 0):
+                    danoe2 = True
+        if(vidase3 > 0):
+            for i in matrizDeInimigos:
+                vidase3 = inimigo.hite3(listaProjeteisInimigos, escudo3, vidase3)
+                if (vidase3 == 0):
+                    danoe3 = True
+        
+        if danoe1 == False:
+            if vidase1 == 3:
+                escudo1.draw()
+            if vidase1 == 2:
+                escudo1 = Sprite("assets\\escudo2.png")
+                escudo1.set_position(100 , (janela.height - player.height) - 59)
+                escudo1.draw()
+            if vidase1 == 1:
+                escudo1 = Sprite("assets\\escudo3.png")
+                escudo1.set_position(100 , (janela.height - player.height) - 59)
+                escudo1.draw()
+        if danoe2 == False:
+            if vidase2 == 3:
+                escudo2.draw()
+            if vidase2 == 2:
+                escudo2 = Sprite("assets\\escudo2.png")
+                escudo2.set_position((janela.width - escudo1.width)/2, (janela.height - player.height) - 59)
+                escudo2.draw()
+            if vidase2 == 1:
+                escudo2 = Sprite("assets\\escudo3.png")
+                escudo2.set_position((janela.width - escudo1.width)/2, (janela.height - player.height) - 59)
+                escudo2.draw()
+        if danoe3 == False:
+            if vidase3 == 3:
+                escudo3.draw()
+            if vidase3 == 2:
+                escudo3 = Sprite("assets\\escudo2.png")
+                escudo3.set_position((janela.width - escudo1.width) - 100, (janela.height - player.height) - 59)
+                escudo3.draw()
+            if vidase3 == 1:
+                escudo3 = Sprite("assets\\escudo3.png")
+                escudo3.set_position((janela.width - escudo1.width) - 100, (janela.height - player.height) - 59)
+                escudo3.draw()
+        if danoe1 == True:
+            escudo1.set_position(janela.width, janela.height)
+        if danoe2 == True:
+            escudo2.set_position(janela.width, janela.height)
+        if danoe3 == True:
+            escudo3.set_position(janela.width, janela.height)
+        
+            
         # verifico se o player perdeu 
 
         if (vidas <= 0):
             ranking.gameover(score) 
         for i in range(len(matrizDeInimigos)-1,-1,-1):
             for j in matrizDeInimigos[i]:
-                if j[0].collided(player) or j[0].y>=player.y:
+                if (j[0].collided(player) or j[0].y>=player.y) and vidase1 == 0 and vidase2 == 0 and vidase3 == 0:
+                    ranking.gameover(score)
+                elif (j[0].collided(escudo1) or j[0].collided(escudo2) or j[0].collided(escudo3)):
                     ranking.gameover(score)
         velinimigo = inimigo.moveInimigos(janela, matrizDeInimigos, velinimigo)
 
         # incremento a pontuação a cada kill do player
 
-        score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha, dificuldade)
+        score = inimigo.kill(listaProjeteis,matrizDeInimigos,score,linha, dificuldade, escudo1, escudo2, escudo3)
         # desenho os inimigos e todas as informações da tela
-        
         inimigo.draw(matrizDeInimigos)
         janela.draw_text("SCORE: ", 20, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])
         janela.draw_text(str(score), 100, 10, size=20, font_name="Arial", bold=True,color=[255, 255, 255])

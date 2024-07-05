@@ -42,7 +42,7 @@ def moveInimigos(janela, matrizDeInimigos, movimentoInimigo):
                 j[0].y += 30
     return movimentoInimigo
 
-def kill(listaProjeteis,matrizDeInimigos,score,linha,dificuldade):
+def kill(listaProjeteis,matrizDeInimigos,score,linha,dificuldade, escudo1, escudo2, escudo3):
     for k,linhaDeInimigos in enumerate(matrizDeInimigos):
         for i,inimigo in enumerate(linhaDeInimigos):
             for j,projetil in enumerate(listaProjeteis):
@@ -78,7 +78,9 @@ def kill(listaProjeteis,matrizDeInimigos,score,linha,dificuldade):
                             elif k==linha-1:
                                 score+=30
                             else:
-                                score+=40                                                                
+                                score+=40
+                    if (projetil.collided(escudo1) or projetil.collided(escudo2) or projetil.collided(escudo3)):
+                        listaProjeteis.pop(j)                                                              
     return score
 
 def hit(vidas,player,listaDeInimigos,listaProjeteisInimigos,score):
@@ -87,3 +89,24 @@ def hit(vidas,player,listaDeInimigos,listaProjeteisInimigos,score):
             listaProjeteisInimigos.pop(i)
             vidas-=1    
     return vidas
+
+def hite1(listaProjeteisInimigos, escudo1, vidase1):
+    for i,projetil in enumerate(listaProjeteisInimigos):
+        if (projetil.collided(escudo1)):
+            listaProjeteisInimigos.pop(i)
+            vidase1-=1    
+    return vidase1
+
+def hite2(listaProjeteisInimigos, escudo2, vidase2):
+    for i,projetil in enumerate(listaProjeteisInimigos):
+        if (projetil.collided(escudo2)):
+            listaProjeteisInimigos.pop(i)
+            vidase2-=1    
+    return vidase2
+
+def hite3(listaProjeteisInimigos, escudo3, vidase3):
+    for i,projetil in enumerate(listaProjeteisInimigos):
+        if (projetil.collided(escudo3)):
+            listaProjeteisInimigos.pop(i)
+            vidase3-=1    
+    return vidase3
