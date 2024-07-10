@@ -45,15 +45,27 @@ def menu():
 def Tutorial():
     janela = Window(1100, 619)
     mouse = janela.get_mouse()
-    jump = Sprite("Assets\\Jump.png")
+    jump = Sprite("Assets\\BotaoPular.png")
     w = Sprite("Assets\\W.png")
-    space = Sprite("Assets\\Space.png")
+    space = Sprite("Assets\\BotaoEspaço.png")
     fundo = GameImage("Assets/TutoF.jpg")
     voltar = Sprite("Assets\\Voltar.png")
+    setaD = Sprite("Assets\\BotaosetaD.png")
+    setaE = Sprite("Assets\\BotaosetaE.png")
+    botaoD = Sprite("Assets\\BotaoD.png")
+    botaoA = Sprite("Assets\\BotaoA.png")
+    ir = Sprite("Assets\\Ir.png")
+    ir.set_position(janela.width - ir.width - 10, janela.height - ir.height - 10)
+    andar = Sprite("Assets\\BotaoAndar.png")
+    setaD.set_position(900, janela.height - setaD.height - 175)
+    setaE.set_position(600, janela.height - setaE.height - 175)
+    botaoD.set_position(900, janela.height - botaoD.height - 100)
+    botaoA.set_position(600, janela.height - botaoD.height - 100)
     voltar.set_position(10, 10)
     jump.set_position(750, 70)
-    space.set_position(700, 140)
-    w.set_position(845, 140)
+    space.set_position(600, 145)
+    andar.set_position(750, janela.height - andar.height - 240)
+    w.set_position(900, 145)
     janela.set_title("TUTORIAL KIRIKU")
     teclado = janela.get_keyboard()
     pygame.mixer.init()
@@ -66,14 +78,50 @@ def Tutorial():
             if mouse.is_over_object(voltar):
                 efeitobotao.play()
                 menu()
+        if mouse.is_button_pressed(1):
+            if mouse.is_over_object(ir):
+                efeitobotao.play()
+                Tutorial2()
         fundo.draw()
         voltar.draw()
         jump.draw()
         space.draw()
         w.draw()
-        janela.draw_text("or", 813, 146, size=16, font_name="Tempus Sans ITC", bold=True,
+        ir.draw()
+        setaD.draw()
+        setaE.draw()
+        botaoD.draw()
+        botaoA.draw()
+        andar.draw()
+        janela.draw_text("ou", 815, 160, size=20, font_name="Tempus Sans ITC", bold=True,
+                         color=[0, 0, 0])
+        janela.draw_text("para esquerda", 620, janela.height - botaoD.height - 121, size=18, font_name="Tempus Sans ITC", bold=True,
+                         color=[0, 0, 0])
+        janela.draw_text("para direita", 925, janela.height - botaoD.height - 121, size=18, font_name="Tempus Sans ITC", bold=True,
                          color=[0, 0, 0])
 
 
+        janela.update()
+
+
+def Tutorial2():
+    janela = Window(1100, 619)
+    mouse = janela.get_mouse()
+    fundo = GameImage("Assets\\TutoF.jpg")
+    teclado = janela.get_keyboard()
+    voltar = Sprite("Assets\\Voltar.png")
+    voltar.set_position(10, janela.height - voltar.height - 10)
+    pygame.mixer.init()
+    efeitobotao = pygame.mixer.Sound('Assets\\efeitobotao.flac')
+    while True:
+        fundo.draw()
+        if teclado.key_pressed("esc"):
+            efeitobotao.play()
+            Tutorial()
+        if mouse.is_button_pressed(1):
+            if mouse.is_over_object(voltar):
+                efeitobotao.play()
+                Tutorial()
+        voltar.draw()
         janela.update()
 menu()
