@@ -1,6 +1,7 @@
 from PPlay.window import *
 from PPlay.gameimage import *
 from PPlay.sprite import *
+import pygame
 # Criando o Menu
 def menu():
     # fazendo o fundo e colocando os assets das configurações no menu com suas respecitivas posições.
@@ -54,9 +55,15 @@ def Tutorial():
     setaE = Sprite("Assets\\BotaosetaE.png")
     botaoD = Sprite("Assets\\BotaoD.png")
     botaoA = Sprite("Assets\\BotaoA.png")
+    botaocomandos = Sprite("Assets\\Botaocomandos.png")
+    botaocomojogardark = Sprite("Assets\\Botaocomojogardark.png")
+    botaosetacima = Sprite("Assets\\BotaosetaCima.png")
     ir = Sprite("Assets\\Ir.png")
     ir.set_position(janela.width - ir.width - 10, janela.height - ir.height - 10)
     andar = Sprite("Assets\\BotaoAndar.png")
+    botaocomandos.set_position(((janela.width - botaocomandos.width) / 2) - 50, janela.height - botaocomandos.height - 10)
+    botaocomojogardark.set_position(((janela.width - botaocomandos.width) / 2) + 50, janela.height - botaocomandos.height - 10)
+    botaosetacima.set_position(750, 145)
     setaD.set_position(900, janela.height - setaD.height - 175)
     setaE.set_position(600, janela.height - setaE.height - 175)
     botaoD.set_position(900, janela.height - botaoD.height - 100)
@@ -93,8 +100,9 @@ def Tutorial():
         botaoD.draw()
         botaoA.draw()
         andar.draw()
-        janela.draw_text("ou", 815, 160, size=20, font_name="Tempus Sans ITC", bold=True,
-                         color=[0, 0, 0])
+        botaosetacima.draw()
+        botaocomojogardark.draw()
+        botaocomandos.draw()
         janela.draw_text("para esquerda", 620, janela.height - botaoD.height - 121, size=18, font_name="Tempus Sans ITC", bold=True,
                          color=[0, 0, 0])
         janela.draw_text("para direita", 925, janela.height - botaoD.height - 121, size=18, font_name="Tempus Sans ITC", bold=True,
@@ -111,6 +119,12 @@ def Tutorial2():
     teclado = janela.get_keyboard()
     voltar = Sprite("Assets\\Voltar.png")
     voltar.set_position(10, janela.height - voltar.height - 10)
+    botaocomandosdark = Sprite("Assets\\Botaocomandosdark.png")
+    botaocomojogar = Sprite("Assets\\Botaocomojogar.png")
+    fundotexto = Sprite("Assets\\fundotexto.png")
+    fundotexto.set_position((janela.width / 2) - 40, 40)
+    botaocomandosdark.set_position(((janela.width - botaocomandosdark.width) / 2) - 50, janela.height - botaocomandosdark.height - 10)
+    botaocomojogar.set_position(((janela.width - botaocomandosdark.width) / 2) + 50, janela.height - botaocomandosdark.height - 10)
     pygame.mixer.init()
     efeitobotao = pygame.mixer.Sound('Assets\\efeitobotao.flac')
     while True:
@@ -122,6 +136,8 @@ def Tutorial2():
             if mouse.is_over_object(voltar):
                 efeitobotao.play()
                 Tutorial()
+        fundotexto.draw()
+        botaocomandosdark.draw()
+        botaocomojogar.draw()
         voltar.draw()
         janela.update()
-menu()

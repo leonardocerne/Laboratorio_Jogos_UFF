@@ -7,10 +7,10 @@ def game(velper, veladd, limite, dificuldade):
     janela = Window(1100, 619)
     hora = datetime.datetime.now().time()
     y = hora.hour
-    if(y < 18 and y >= 6):
+    if(y >= 18 or y < 6):
         fundo = GameImage("Assets\\Fundonoite.png")
         fundo2 = GameImage("Assets\\Fundonoite.png")
-    if(y < 6 or y >= 18):
+    if(y >= 6 and y < 18):
         fundo = GameImage("Assets\\Fundoteste.png")
         fundo2 = GameImage("Assets\\Fundoteste.png")
     janela.set_title("JOGAR KIRIKU")
